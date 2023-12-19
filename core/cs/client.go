@@ -287,6 +287,10 @@ func (c *Client) DialUDP() (HyUDPConn, error) {
         if c.udpDisabled {
                 return nil, errors.New("UDP is disabled by server side")
         }
+        _, _, err := c.openStreamWithReconnect()
+        if err != nil {
+                return nil, err
+        }
 
         // Create a session in the map
         c.udpSessionMutex.Lock()
